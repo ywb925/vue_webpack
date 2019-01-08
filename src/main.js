@@ -10,8 +10,7 @@ Vue.component(Header.name,Header)
 // 引入MUI样式
 import './lib/mui/css/mui.min.css'
 
-
-let vm = new Vue({
+var vm = new Vue({
     el:'#app',
     render: c => c(App)
 })

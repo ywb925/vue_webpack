@@ -1,6 +1,6 @@
-# _app
+# vue项目
 
-> 项目
+> webpack构建
 
 ## Build Setup
 
