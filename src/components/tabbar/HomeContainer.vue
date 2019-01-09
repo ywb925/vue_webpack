@@ -12,9 +12,9 @@
 		</mt-swipe>
 		<!-- 九宫格 -->
 		<ul class="mui-table-view mui-grid-view mui-grid-9">
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><router-link to="/home/newslist">
             	<img src="../../css/images/menu1.png">
-            	<div class="mui-media-body">新闻资讯</div></a></li>
+            	<div class="mui-media-body">新闻资讯</div></router-link></li>
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
                 <img src="../../css/images/menu2.png">
                 <div class="mui-media-body">图片分享</div></a></li>
@@ -37,7 +37,7 @@
 <script>
 	import {Toast} from 'mint-ui'
 	export default {
-		data: function() {
+		data() {
 			return {
 				swipeDataList: []  //保存轮播图数据
 			}
@@ -47,7 +47,7 @@
 		},
 		methods: {
 			getSwipeData() { //获取轮播图数据的方法
-				this.$http.get('http://vue.studyit.io/api/getlunbo').then(result => {
+				this.$http.get('api/getlunbo').then(result => {
 					if(result.body.status === 0){
 						this.swipeDataList = result.body.message
 					}else{
