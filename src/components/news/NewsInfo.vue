@@ -138,7 +138,7 @@
 			我用漂亮的押韵 形容被掠夺一空的爱情
 		</div>
 		<!-- 评论区域 -->
-		<comment :newsId="this.id"></comment>
+		<comment :id="id"></comment>
 	</div>
 </template>
 

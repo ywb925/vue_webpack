@@ -69,13 +69,13 @@
 				cmtContent: ''
 			}
 		},
-		props: ['newsId'],
+		props: ['id'],
 		created() {
 			// this.getcomments()
 		},
 		methods: {
 			getcomments() { //获取评论数据
-				this.$http.get("api/getcomments/"+ this.newsId + "?pageindex=" + this.pageIndex).then(result => {
+				this.$http.get("api/getcomments/"+ this.id + "?pageindex=" + this.pageIndex).then(result => {
 					if(result.body.status === 0){
 						// this.comments = result.body.message
 						//每当获取新评论数据时,不应该清空覆盖旧的数据,而是应该在原有数据基础上拼接上新数据
