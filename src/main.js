@@ -9,6 +9,99 @@ import router from './router.js'
 // 导入App根组件
 import App from "./App.vue"
 
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
+// 预先读取本地存储中的购物车数据
+var shopcart = JSON.parse(localStorage.getItem('shopcart') || '[]')
+var store = new Vuex.Store({
+	state: {
+		shopcart: shopcart //存储购物车中的商品数据
+	},
+	mutations: {
+		//点击加入购物车将商品信息保存到shopcart中
+		addToCart(state,goods){
+			var flag = false
+			state.shopcart.some(item => {
+				if(item.id == goods.id){
+					item.count += parseInt(goods.count)
+					flag = true
+					return true
+				}
+			})
+			if(!flag) {
+				state.shopcart.push(goods)
+			}
+			//当更新shopcart之后，把shopcart数组存储到本地的localStorage中
+			localStorage.setItem('shopcart',JSON.stringify(state.shopcart))
+		},
+		//修改购物车中商品的数量值
+		updateGoodsInfo(state,goods) {
+			state.shopcart.some(item => {
+				if(item.id == goods.id) {
+					item.count = parseInt(goods.count)
+					return true
+				}
+			})
+			localStorage.setItem('shopcart',JSON.stringify(state.shopcart))
+		},
+		removeFormCart(state,id){
+			state.shopcart.some((item,i) => {
+				if(item.id == id){
+					state.shopcart.splice(i,1)
+					return true
+				}
+			})
+			localStorage.setItem('shopcart',JSON.stringify(state.shopcart))
+		},
+		updateGoodsSelected(state,goods) {
+			state.shopcart.some(item => {
+				if(item.id == goods.id){
+					item.selected = goods.selected
+					return true
+				}
+			})
+			localStorage.setItem('shopcart',JSON.stringify(state.shopcart))
+		}
+	},
+	getters: {
+		getAllCounts(state) {
+			var c = 0
+			state.shopcart.forEach(item => {
+				c += item.count
+			})
+			return c
+		},
+		getGoodsCount(state) {
+			var obj = {}
+			state.shopcart.forEach(item => {
+				obj[item.id] = item.count
+			})
+			return obj
+		},
+		getGoodsSelected(state) {
+			var obj = {}
+			state.shopcart.forEach(item => {
+				obj[item.id] = item.selected
+			})
+			return obj
+		},
+		getGoodsCountAndAmount(state) {
+			var obj = {
+				count: 0,  //勾选商品的数量
+				amount: 0 //勾选商品的总价
+			}
+			state.shopcart.forEach(item => {
+				if(item.selected) {
+					obj.count += item.count
+					obj.amount += item.price * item.count
+				}
+			})
+			return obj
+		}
+	}
+})
+
 // 按需引入Mint-UI中的组件
 // import {Header,Swipe,SwipeItem,Button,Lazyload} from 'mint-ui'
 // Vue.component(Header.name,Header)
@@ -48,5 +141,6 @@ Vue.filter('dateFormat',function(dateStr,pattern = 'YYYY-MM-DD hh:mm:ss'){
 var vm = new Vue({
     el:'#app',
     render: c => c(App),
-    router //4.挂载路由对象到Vm实例上
+    router, //4.挂载路由对象到Vm实例上
+    store
 })

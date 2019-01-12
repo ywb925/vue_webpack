@@ -129,6 +129,16 @@
 			},
 			addToShopcart() {
 				this.flag = !this.flag
+				//拼接出一个要保存到store中shopcart数组中的商品信息对象
+				var goods = {
+					id: this.id,
+					count: this.selectedCount,
+					// price: this.goodsinfo.sell_price,
+					price: 2199,
+					selected: true
+				}
+				// 调用store中mutations里的方法将商品加入购物车
+				this.$store.commit('addToCart',goods)
 			},
 			beforeEnter(el) {
 				el.style.transform = "translate(0,0)"
